@@ -4,6 +4,7 @@ using OnlineShop.Data.Entity;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using OnlineShop.Models.DomainModels;
 
 namespace OnlineShop.Data
 {
@@ -100,5 +101,7 @@ namespace OnlineShop.Data
                 //x.Property(p => p.IsDefault).IsRequired();
             });
         }
+        public DbSet<OnlineShop.Models.DomainModels.BrandModel> BrandModel { get; set; }
+        public DbSet<OnlineShop.Models.DomainModels.FileModel> FileModel { get; set; }
     }
 }

@@ -47,6 +47,11 @@ namespace OnlineShop
 
             #region Services
             services.AddTransient<IProductCategoryService, ProductCategoryService>();
+            services.AddTransient<IBrandService, BrandService>();
+            services.AddTransient<IFileService, FileService>();
+            services.AddTransient<IFileTypeService, FileTypeService>();
+            services.AddTransient<IProductFileService, ProductFileService>();
+            services.AddTransient<IProductService, ProductService>();
             #endregion
 
 
