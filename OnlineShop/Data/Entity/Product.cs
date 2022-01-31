@@ -12,6 +12,6 @@ namespace OnlineShop.Data.Entity
         public decimal Price { get; set; }
         public int CategoryId { get; set; }
         public virtual ProductCategory ProductCategory { get; set; }
-        //public virtual List<ProductFile> ProductFiles { get; set; }
+        public virtual List<ProductFile> ProductFiles { get; set; }
     }
 }

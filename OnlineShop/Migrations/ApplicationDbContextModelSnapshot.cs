@@ -374,7 +374,8 @@ namespace OnlineShop.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWID()");
 
                     b.Property<Guid>("FileId")
                         .HasColumnType("uniqueidentifier");
@@ -395,6 +396,71 @@ namespace OnlineShop.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("ProductFiles");
+                });
+
+            modelBuilder.Entity("OnlineShop.Models.DomainModels.BrandModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("BrandModel");
+                });
+
+            modelBuilder.Entity("OnlineShop.Models.DomainModels.FileModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Format")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDownloadable")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhysicalPath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Size")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TypeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FileModel");
+                });
+
+            modelBuilder.Entity("OnlineShop.Models.DomainModels.FileTypeModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FileTypeModel");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -492,13 +558,13 @@ namespace OnlineShop.Migrations
             modelBuilder.Entity("OnlineShop.Data.Entity.ProductFile", b =>
                 {
                     b.HasOne("OnlineShop.Data.Entity.File", "File")
-                        .WithMany()
+                        .WithMany("ProductFiles")
                         .HasForeignKey("FileId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("OnlineShop.Data.Entity.Product", "Product")
-                        .WithMany()
+                        .WithMany("ProductFiles")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -516,11 +582,18 @@ namespace OnlineShop.Migrations
             modelBuilder.Entity("OnlineShop.Data.Entity.File", b =>
                 {
                     b.Navigation("ProductCategories");
+
+                    b.Navigation("ProductFiles");
                 });
 
             modelBuilder.Entity("OnlineShop.Data.Entity.FileType", b =>
                 {
                     b.Navigation("Files");
+                });
+
+            modelBuilder.Entity("OnlineShop.Data.Entity.Product", b =>
+                {
+                    b.Navigation("ProductFiles");
                 });
 
             modelBuilder.Entity("OnlineShop.Data.Entity.ProductCategory", b =>

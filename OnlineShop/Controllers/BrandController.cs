@@ -15,7 +15,7 @@ namespace OnlineShop.Controllers
         public IActionResult Index()
         {
             var list = _brandService.GetAll();
-            return View();
+            return View(list);
         }
     }
 }
