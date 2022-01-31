@@ -39,8 +39,8 @@ namespace OnlineShop.Data
                 x.Property(p => p.Size).HasMaxLength(50).IsRequired();
                 x.Property(p => p.IsDownloadable).HasMaxLength(50).IsRequired();
                 x.Property(p => p.CreateAt).HasDefaultValueSql("GETDATE()").IsRequired();
-                x.HasMany(x => x.ProductFiles)
-                .WithOne(x => x.File);
+                //x.HasMany(x => x.ProductFiles)
+                //.WithOne(x => x.File);
             });
             builder.Entity<FileType>(x =>
             {
@@ -88,16 +88,16 @@ namespace OnlineShop.Data
             });
             builder.Entity<ProductFile>(x =>
             {
-                x.HasOne(x => x.Product)
-                .WithMany(x => x.ProductFiles)
-                .HasForeignKey(x => x.ProductId).IsRequired();
-                x.HasOne(x => x.File)
-                .WithMany(x => x.ProductFiles)
-                .HasForeignKey(x => x.FileId).IsRequired();
-                x.HasKey(x => x.Id);
-                x.Property(x => x.Id)
-                .HasDefaultValueSql("NEWID()");
-                x.Property(p => p.IsDefault).IsRequired();
+                //x.HasOne(x => x.Product)
+                //.WithMany(x => x.ProductFiles)
+                //.HasForeignKey(x => x.ProductId).IsRequired();
+                //x.HasOne(x => x.File)
+                //.WithMany(x => x.ProductFiles)
+                //.HasForeignKey(x => x.FileId).IsRequired();
+                //x.HasKey(x => x.Id);
+                //x.Property(x => x.Id)
+                //.HasDefaultValueSql("NEWID()");
+                //x.Property(p => p.IsDefault).IsRequired();
             });
         }
     }

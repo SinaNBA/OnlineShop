@@ -25,6 +25,6 @@ namespace OnlineShop.Data.Entity
         public bool IsDownloadable { get; set; }
         public DateTime CreateAt { get; set; }
         public virtual List<ProductCategory> ProductCategories { get; set; }
-        public virtual List<ProductFile> ProductFiles { get; set; }
+        //public virtual List<ProductFile> ProductFiles { get; set; }
     }
 }

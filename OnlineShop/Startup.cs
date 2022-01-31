@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -10,6 +11,8 @@ using Microsoft.Extensions.Hosting;
 using OnlineShop.Data;
 using OnlineShop.Repositories;
 using OnlineShop.Repositories.Abstractions;
+using OnlineShop.Services;
+using OnlineShop.Services.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,12 +36,18 @@ namespace OnlineShop
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
+            #region Repos
             services.AddTransient<IBrandRepository, BrandRepository>();
             services.AddTransient<IFileRepository, FileRepository>();
             services.AddTransient<IFileTypeRepository, FileTypeRepository>();
             services.AddTransient<IProductRepository, ProductRepository>();
             services.AddTransient<IProductCategoryRepository, ProductCategoryRepository>();
             services.AddTransient<IProductFileRepository, ProductFileRepository>();
+            #endregion
+
+            #region Services
+            services.AddTransient<IProductCategoryService, ProductCategoryService>();
+            #endregion
 
 
             services.AddDatabaseDeveloperPageExceptionFilter();
@@ -46,6 +55,10 @@ namespace OnlineShop
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
+
+            IMapper mapper = MappingConfig.RegisterMaps().CreateMapper();
+            services.AddSingleton(mapper);
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
