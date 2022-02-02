@@ -42,6 +42,8 @@ namespace OnlineShop.Data
                 x.Property(p => p.CreateAt).HasDefaultValueSql("GETDATE()").IsRequired();
                 x.HasMany(x => x.ProductFiles)
                 .WithOne(x => x.File);
+                x.HasMany(x => x.ProductCategories)
+                .WithOne(x => x.File);
             });
             builder.Entity<FileType>(x =>
             {
@@ -64,19 +66,19 @@ namespace OnlineShop.Data
             });
             builder.Entity<Product>(x =>
             {
+                x.HasKey(x => x.Id);
+                x.Property(x => x.Id)
+                .HasDefaultValueSql("NEWID()");
                 x.HasOne(x => x.Brand)
                 .WithMany(x => x.Products)
                 .HasForeignKey(x => x.BrandId).IsRequired();
                 x.HasOne(x => x.ProductCategory)
                 .WithMany(x => x.Products)
                 .HasForeignKey(x => x.CategoryId).IsRequired();
-                x.HasKey(x => x.Id);
-                x.Property(x => x.Id)
-                .HasDefaultValueSql("NEWID()");
                 x.Property(p => p.Name).HasMaxLength(50).IsRequired();
                 x.Property(p => p.Price).HasPrecision(10, 2).IsRequired();
                 x.HasMany(x => x.ProductFiles)
-                .WithOne(x => x.Product);
+                 .WithOne(x => x.Product);
             });
             builder.Entity<ProductCategory>(x =>
             {
@@ -86,8 +88,10 @@ namespace OnlineShop.Data
                 x.Property(p => p.Description).HasMaxLength(50);
                 x.HasOne(x => x.File)
                 .WithMany(x => x.ProductCategories)
-                .HasForeignKey(x => x.FileId);
+                .HasForeignKey(x => x.FileId).IsRequired();
                 x.Property(p => p.ParentId).IsRequired();
+                x.HasMany(x => x.Products)
+                .WithOne(x => x.ProductCategory);
             });
             builder.Entity<ProductFile>(x =>
             {
@@ -106,5 +110,6 @@ namespace OnlineShop.Data
         public DbSet<OnlineShop.Models.DomainModels.BrandModel> BrandModel { get; set; }
         public DbSet<OnlineShop.Models.DomainModels.FileModel> FileModel { get; set; }
         public DbSet<OnlineShop.Models.DomainModels.FileTypeModel> FileTypeModel { get; set; }
+        public DbSet<OnlineShop.Models.DomainModels.ProductModel> ProductModel { get; set; }
     }
 }
