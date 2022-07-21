@@ -1,2 +1,0 @@
-# OnlineShop
-An eCommerce website
